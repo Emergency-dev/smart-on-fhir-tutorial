@@ -1,4 +1,5 @@
 (function(window){
+  smartObject;
   window.extractData = function() {
     var ret = $.Deferred();
 
@@ -10,6 +11,7 @@
     function onReady(smart)  {
       if (smart.hasOwnProperty('patient')) {
         console.log(smart);
+        smartObject = smart;
         
         var patient = smart.patient;
         var pt = patient.read();
