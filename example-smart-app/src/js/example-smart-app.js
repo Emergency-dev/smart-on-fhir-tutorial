@@ -13,18 +13,12 @@ var smartObject;
         console.log(smart);
         smartObject = smart;
         
-        smartObject.api.update({
+        var ptu = smartObject.api.update({
             type: "Patient",
             id: smartObject.patient.id,
             resource: {
 		            name: 'Asad'
             }
-        }).catch(function(e){
-            console.log('An error happened while updating patient: \n' + JSON.stringify(e));
-            throw e;
-        }).then(function(bundle){
-            console.log('Updating patient successed');
-            return bundle;
         });
         
         var patient = smart.patient;
@@ -40,9 +34,10 @@ var smartObject;
                     }
                   });
 
-        $.when(pt, obv).fail(onError);
+        $.when(pt, obv, ptu).fail(onError);
 
-        $.when(pt, obv).done(function(patient, obv) {
+        $.when(pt, obv, ptu).done(function(patient, obv, patientUpdate) {
+		console.log(patientUpdate);
           var byCodes = smart.byCodes(obv, 'code');
           var gender = patient.gender;
 
