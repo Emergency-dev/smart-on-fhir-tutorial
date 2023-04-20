@@ -135,6 +135,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var POST = Defaults.and($$Method('POST'));
 	        var PUT = Defaults.and($$Method('PUT'));
 	        var DELETE = Defaults.and($$Method('DELETE'));
+		var PATCH = Defaults.and($$Method('PATCH'));    
 
 	        var http = transport.Http(cfg, adapter);
 
@@ -166,7 +167,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            create: POST.and(resourceTypePath).and(ReturnHeader).end(http),
 	            validate: POST.and(resourceTypePath.slash("_validate")).end(http),
 	            search: GET.and(resourceTypePath).and(pt.$WithPatient).and(query.$SearchParams).and($Paging).end(http),
-	            update: PUT.and(resourcePath).and(ReturnHeader).end(http),
+	            update: PATCH.and(resourcePath).and(ReturnHeader).end(http),
 	            nextPage: GET.and(bundle.$$BundleLinkUrl("next")).end(http),
 	            prevPage: GET.and(bundle.$$BundleLinkUrl("prev")).end(http),
 	            resolve: GET.and(refs.resolve).end(http)
