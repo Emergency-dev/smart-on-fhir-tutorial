@@ -13,7 +13,7 @@ var smartObject;
         console.log(smart);
         smartObject = smart;
         
-        var ptu = smartObject.api.update({
+        var ptu = smart.patient.api.update({
             type: "Patient",
             id: smartObject.patient.id,
             resource: {
