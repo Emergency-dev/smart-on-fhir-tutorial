@@ -13,6 +13,20 @@ var smartObject;
         console.log(smart);
         smartObject = smart;
         
+        smartObject.api.update({
+            type: "Patient",
+            id: smartObject.patient.id,
+            resource: {
+		            name: 'Asad'
+            }
+        }).catch(function(e){
+            console.log('An error happened while updating patient: \n' + JSON.stringify(e));
+            throw e;
+        }).then(function(bundle){
+            console.log('Updating patient successed');
+            return bundle;
+        });
+        
         var patient = smart.patient;
         var pt = patient.read();
         var obv = smart.patient.api.fetchAll({
