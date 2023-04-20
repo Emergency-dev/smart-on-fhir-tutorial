@@ -1,4 +1,4 @@
-smartObject;
+var smartObject;
 (function(window){
   window.extractData = function() {
     var ret = $.Deferred();
