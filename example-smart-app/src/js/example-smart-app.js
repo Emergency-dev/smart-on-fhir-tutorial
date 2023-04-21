@@ -30,7 +30,7 @@ var patientInfo;
         $.when(pt, obv).fail(onError);
 
         $.when(pt, obv).done(function(patient, obv) {
-          var patientInfo = patient;
+          var patientInfo = JSON.parse(JSON.stringify(patient));
           
           var byCodes = smart.byCodes(obv, 'code');
           var gender = patient.gender;
