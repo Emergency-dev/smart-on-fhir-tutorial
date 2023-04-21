@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
     <title>Emergency Example-SMART-App</title>
@@ -10,61 +11,65 @@
       Temporarily disable cerner-smart-embeddable-lib
     <link rel='stylesheet' type='text/css' href='./lib/css/cerner-smart-embeddable-lib-1.0.0.min.css'>
     -->
-  </head>
-  <body>
+</head>
+
+<body>
     <div id='errors'>
     </div>
     <div id="loading" class="spinner">
-      <div class="bounce1"></div>
-      <div class="bounce2"></div>
-      <div class="bounce3"></div>
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
     </div>
-    <div id='holder' >
-      <h2>Level60Warlock Example-SMART-App</h2>
+    <div id='holder'>
+        <h2>Level60Warlock Example-SMART-App</h2>
+        <br>
+        <input type="text" id="fname" name="fname">
+        <button type="button" onclick="UpdatePatient()">Update</button>
+        <br>
+        <h2>Patient Resource</h2>
+        <table>
+            <tr>
+                <th>First Name:</th>
+                <td id='fname'></td>
+            </tr>
+            <tr>
+                <th>Last Name:</th>
+                <td id='lname'></td>
+            </tr>
+            <tr>
+                <th>Gender:</th>
+                <td id='gender'></td>
+            </tr>
+            <tr>
+                <th>Date of Birth:</th>
+                <td id='birthdate'></td>
+            </tr>
+        </table>
+        <h2>Observation Resource</h2>
+        <table>
+            <tr>
+                <th>Height:</th>
+                <td id='height'></td>
+            </tr>
+            <tr>
+                <th>Systolic Blood Pressure:</th>
+                <td id='systolicbp'></td>
 
-      <h2>Patient Resource</h2>
-      <table>
-        <tr>
-          <th>First Name:</th>
-          <td id='fname'></td>
-        </tr>
-        <tr>
-          <th>Last Name:</th>
-          <td id='lname'></td>
-        </tr>
-        <tr>
-          <th>Gender:</th>
-          <td id='gender'></td>
-        </tr>
-        <tr>
-          <th>Date of Birth:</th>
-          <td id='birthdate'></td>
-        </tr>
-      </table>
-      <h2>Observation Resource</h2>
-      <table>
-        <tr>
-          <th>Height:</th>
-          <td id='height'></td>
-        </tr>
-        <tr>
-          <th>Systolic Blood Pressure:</th>
-          <td id='systolicbp'></td>
-
-        </tr>
-        <tr>
-          <th>Diastolic Blood Pressure:</th>
-          <td id='diastolicbp'></td>
-        </tr>
-        <tr>
-          <th>LDL:</th>
-          <td id='ldl'></td>
-        </tr>
-        <tr>
-          <th>HDL:</th>
-          <td id='hdl'></td>
-        </tr>
-      </table>
+            </tr>
+            <tr>
+                <th>Diastolic Blood Pressure:</th>
+                <td id='diastolicbp'></td>
+            </tr>
+            <tr>
+                <th>LDL:</th>
+                <td id='ldl'></td>
+            </tr>
+            <tr>
+                <th>HDL:</th>
+                <td id='hdl'></td>
+            </tr>
+        </table>
     </div>
     <!-- Required JS files to enable this page to embed within an MPage -->
     <!--
@@ -84,18 +89,51 @@
     <script src='./lib/js/fhir-client-cerner-additions-1.0.0.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>
-      extractData().then(
-        //Display Patient Demographics and Observations if extractData was success
-        function(p) {
-          drawVisualization(p);
-        },
+        extractData().then(
+            //Display Patient Demographics and Observations if extractData was success
+            function (p) {
+                drawVisualization(p);
+            },
 
-        //Display 'Failed to call FHIR Service' if extractData failed
-        function() {
-          $('#loading').hide();
-          $('#errors').html('<p> Failed to call FHIR Service </p>');
-        }
-      );
+            //Display 'Failed to call FHIR Service' if extractData failed
+            function () {
+                $('#loading').hide();
+                $('#errors').html('<p> Failed to call FHIR Service </p>');
+            }
+        );
     </script>
-  </body>
+    <script>
+        function UpdatePatient() {
+            console.log(smartObject);
+            var settings = {
+                "url": "https://fhir-ehr-code.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d/Patient/12724069",
+                "method": "PATCH",
+                "timeout": 0,
+                "headers": {
+                    "Accept": "application/fhir+json",
+                    "Content-Type": "application/json-patch+json",
+                    "If-Match": "W/\"279\"",
+                    "Authorization": "Bearer eyJraWQiOiIyMDIzLTA0LTE5VDIzOjIxOjExLjQ5My5lYy5lczI1NiIsInR5cCI6IkpXVCIsImFsZyI6IkVTMjU2In0.eyJzdWIiOiJwb3J0YWwiLCJ1cm46Y29tOmNlcm5lcjphdXRob3JpemF0aW9uOmNsYWltcyI6eyJ2ZXIiOiIxLjAiLCJlbmNvdW50ZXIiOiI5Nzk1MzQ5MiIsInRudCI6ImVjMjQ1OGYyLTFlMjQtNDFjOC1iNzFiLTBlNzAxYWY3NTgzZCIsImF6cyI6ImxhdW5jaCBvbmxpbmVfYWNjZXNzIG9wZW5pZCBwYXRpZW50XC9PYnNlcnZhdGlvbi5yZWFkIHBhdGllbnRcL1BhdGllbnQucmVhZCBwYXRpZW50XC9QYXRpZW50LndyaXRlIHByb2ZpbGUiLCJ1c2VyIjoiMTI3NDIwNjkiLCJwYXRpZW50IjoiMTI3MjQwNjkifSwiYXpwIjoiYTVlYmZlZjgtNGQxYS00MTE4LWJlY2ItMGE2MzEzNGZiNjFhIiwiaXNzIjoiaHR0cHM6XC9cL2F1dGhvcml6YXRpb24uY2VybmVyLmNvbVwvIiwiZXhwIjoxNjgyMDc5MDgxLCJpYXQiOjE2ODIwNzg0ODEsImp0aSI6ImRkZmEwNThjLWUyYjMtNGFlNS05ZTU3LTRiNzhlYTVhZDlhMiIsInVybjpjZXJuZXI6YXV0aG9yaXphdGlvbjpjbGFpbXM6dmVyc2lvbjoxIjp7InZlciI6IjEuMCIsInByb2ZpbGVzIjp7Im1pbGxlbm5pdW0tdjEiOnsicGVyc29ubmVsIjoiMTI3NDIwNjkiLCJlbmNvdW50ZXIiOiI5Nzk1MzQ5MiJ9LCJzbWFydC12MSI6eyJwYXRpZW50cyI6WyIxMjcyNDA2OSJdLCJhenMiOiJsYXVuY2ggb25saW5lX2FjY2VzcyBvcGVuaWQgcGF0aWVudFwvT2JzZXJ2YXRpb24ucmVhZCBwYXRpZW50XC9QYXRpZW50LnJlYWQgcGF0aWVudFwvUGF0aWVudC53cml0ZSBwcm9maWxlIiwiZmhpclVzZXIiOiJQcmFjdGl0aW9uZXJcLzEyNzQyMDY5In19LCJjbGllbnQiOnsibmFtZSI6IlR1dG9yaWFsIFNtYXJ0IEFwcCIsImlkIjoiYTVlYmZlZjgtNGQxYS00MTE4LWJlY2ItMGE2MzEzNGZiNjFhIn0sInVzZXIiOnsicHJpbmNpcGFsIjoicG9ydGFsIiwicGVyc29uYSI6InByb3ZpZGVyIiwiaWRzcCI6ImVjMjQ1OGYyLTFlMjQtNDFjOC1iNzFiLTBlNzAxYWY3NTgzZCIsInNlc3Npb25JZCI6ImI1NGI3ZDA0LTdkZGUtNGQ0Yi1hNzFjLWI2MWUxYzljNTQyYSIsInByaW5jaXBhbFR5cGUiOiJ1c2VybmFtZSIsInByaW5jaXBhbFVyaSI6Imh0dHBzOlwvXC9taWxsZW5uaWEuY2VybmVyLmNvbVwvaW5zdGFuY2VcL2VjMjQ1OGYyLTFlMjQtNDFjOC1iNzFiLTBlNzAxYWY3NTgzZFwvcHJpbmNpcGFsXC8wMDAwLjAwMDAuMDBDMi42REI1IiwiaWRzcFVyaSI6Imh0dHBzOlwvXC9taWxsZW5uaWEuY2VybmVyLmNvbVwvYWNjb3VudHNcL2MxOTQxLmNlcm5fYWJjbi5jZXJuZXJhc3AuY29tXC9lYzI0NThmMi0xZTI0LTQxYzgtYjcxYi0wZTcwMWFmNzU4M2RcL2xvZ2luIn0sInRlbmFudCI6ImVjMjQ1OGYyLTFlMjQtNDFjOC1iNzFiLTBlNzAxYWY3NTgzZCJ9fQ.lMwy4JeAY-M9jtW-kVWZagAMVGGDJHcLKhAsCBjG-Fkaa8ZebRuNmNJvhS51UNoKHv4wUZGUF4tKjnQ3VSKK2A"
+                },
+                "data": JSON.stringify([
+                    {
+                        "path": "/name/0/id",
+                        "op": "test",
+                        "value": "CI-12724069-0"
+                    },
+                    {
+                        "path": "/name/0/family",
+                        "op": "replace",
+                        "value": "xWave"
+                    }
+                ]),
+            };
+
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+            });
+        }
+    </script>
+</body>
+
 </html>
